@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include "david.cpp"
 
 int recurseFib(int n)
 {
@@ -26,6 +27,7 @@ int main(int argc, char const *argv[])
 {
 
     std::cout << iterFib(10) << std::endl;
+    std::cout << david(5) << std::endl;;
     // recurseFib(10);
 
     return 0;
