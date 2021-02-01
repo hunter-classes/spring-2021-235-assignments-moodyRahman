@@ -1,0 +1,7 @@
+*.pgm
+*
+!/**/
+!*.*
+*.o
+!Makefile
+settings.json%   
