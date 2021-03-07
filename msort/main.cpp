@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-std::vector<int> msort(std::vector<int> left, std::vector<int> right)
+std::vector<int> merge(std::vector<int> left, std::vector<int> right)
 {
 	std::vector<int> out;
 	auto lindex = left.begin();
@@ -41,7 +41,7 @@ std::vector<int> msort(std::vector<int> left, std::vector<int> right)
 	return out;
 }
 
-std::vector<int> merge(std::vector<int> in)
+std::vector<int> msort(std::vector<int> in)
 {
 	if (in.size() == 0 || in.size() == 1)
 	{
@@ -61,11 +61,10 @@ std::vector<int> merge(std::vector<int> in)
 
 	int mid = in.size()/2;
 
-	auto left = merge(std::vector<int>(in.begin(), in.begin()+mid));
-	auto right = merge(std::vector<int>(in.begin()+mid, in.end()));
+	auto left = msort(std::vector<int>(in.begin(), in.begin()+mid));
+	auto right = msort(std::vector<int>(in.begin()+mid, in.end()));
 
-	return msort(left, right);
-
+	return merge(left, right);
 }
 
 int main()
@@ -75,7 +74,7 @@ int main()
 
 	std::vector<int> arr = {1, 5, 8, 7, 8, 3, 4, 2, 4, 6, 9, 7, 6, 4, 3, 1, 5, 6, 3, 8, 2, 9};
 
-	std::vector<int> out = merge(arr);
+	std::vector<int> out = msort(arr);
 
 	for (auto x : out)
 	{
