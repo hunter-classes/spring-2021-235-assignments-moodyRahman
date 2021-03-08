@@ -1,84 +1,81 @@
-#include <iostream>
+
 #include <vector>
+#include <iostream>
 
-std::vector<int> merge(std::vector<int> left, std::vector<int> right)
-{
-	std::vector<int> out;
-	auto lindex = left.begin();
-	auto rindex = right.begin();
 
-	// compare the first elements of each sub vector until you hit the end of one
-	while (lindex != left.end() && rindex != right.end())
-	{
+// stephanie kim merge
 
-		if (*(lindex) <= *(rindex))
-		{
-			out.push_back(*(lindex++));
-		}
-		else
-		{
-			out.push_back(*(rindex++));
-		}
-	}
 
-	// if there's a remaining elements in either vector, fully flush them out
-	if (lindex == left.end())
-	{
-		while (rindex != right.end())
-		{
-			out.push_back(*(rindex++));
-		}
-	}
+std::vector<int> merge(std::vector<int> f, std::vector<int> s){
+// merge(r1, r2){
+// walk down r1 and r2 copying the smaller one into result until combined.
+// }
+    int sum = f.size() + s.size();
+    std::vector<int> merged(sum);
+  
+  //looping by the num of elements 
+    for(int i = 0; i < sum; i++){
 
-	if (rindex == right.end())
-	{
-		while (lindex != left.end())
-		{
-			out.push_back(*(lindex++));
-		}
-	}
+        //if both vectors have elements add the smaller one 
+        if(f.size() > 0 && s.size() >0){
 
-	return out;
+        
+            if(f[i] < s[i]){
+                merged[i] = f[i];
+            }else if(f[i] > s[i]){
+                merged[i] = s[i];
+            }else{
+                //in case they're the same num 
+                merged[i] = f[i];
+            }
+
+        }else{
+            //if one of them doesn't add all the elements from the other. 
+            if(f.size() > 0){
+                merged[i] = f[i] ;
+            }else{
+                merged[i] = s[i] ;
+            }
+            
+        }
+    }
+
+    return merged; 
 }
 
-std::vector<int> msort(std::vector<int> in)
-{
-	if (in.size() == 0 || in.size() == 1)
-	{
-		return in;
-	}
-	if (in.size() == 2)
-	{
-		if (in[0] > in[1])
-		{
-			int x = in[1];
-			in[1] = in[0];
-			in[0] = x;
-			return in;
-		}
-		return in;
-	}
 
-	int mid = in.size()/2;
 
-	auto left = msort(std::vector<int>(in.begin(), in.begin()+mid));
-	auto right = msort(std::vector<int>(in.begin()+mid, in.end()));
+// wei msort
+std::vector<int> msort(std::vector<int> unsorted) {
+  std::vector<int> firstHalf, secondHalf, resultFirstHalf, resultSecondHalf;
 
-	return merge(left, right);
+  if (unsorted.size() <= 1) {
+    return unsorted;
+  }
+
+    for (int i = 0; i < unsorted.size()/2; i++) {
+        firstHalf.push_back(unsorted[i]);
+    }
+    resultFirstHalf = msort(firstHalf);
+
+    for (int j = unsorted.size()/2; j < unsorted.size(); j++) {
+        secondHalf.push_back(unsorted[j]);
+    }
+    resultSecondHalf = msort(secondHalf);
+
+    return merge(resultFirstHalf, resultSecondHalf);
 }
 
-int main()
+
+
+int main(int argc, char const *argv[])
 {
-	std::vector<int> left = {0, 9, 20};
-	std::vector<int> right = {4, 5, 6, 7, 8, 9};
-
-	std::vector<int> arr = {1, 5, 8, 7, 8, 3, 4, 2, 4, 6, 9, 7, 6, 4, 3, 1, 5, 6, 3, 8, 2, 9};
-
-	std::vector<int> out = msort(arr);
-
-	for (auto x : out)
-	{
-		std::cout << x << ", ";
-	}
-	std::cout << "" << std::endl;
+    std::vector<int> m = {7,2, 5, 8, 3, 2, 6, 9, 0};
+    auto out = msort(m);
+    for (auto x: out)
+    {
+        std::cout << x  << ", ";
+        std::cout << "" << std::endl;
+    }
+    return 0;
 }
